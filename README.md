@@ -16,3 +16,12 @@ There are two other files of Cordova project for references, also under examples
 remove: 
 cordova plugin remove com.archcra.plugin.mob.thirdauth.MobAuth
 
+
+The dependent jars can be download here: http://wiki.mob.com/android_快速集成指南/
+
+Fore more references, see official documents: http://wiki.mob.com
+
+or check the example:
+
+https://github.com/ShareSDKPlatform/ThirdPartyLoginDemo
+
