@@ -26,8 +26,6 @@ import android.widget.Toast;
 
 
 import com.archcra.plugin.mob.auth.OnLoginListener;
-import com.archcra.plugin.mob.auth.ThirdPartyLogin;
-import com.archcra.plugin.mob.auth.UserInfo;
 
 import cn.sharesdk.framework.FakeActivity;
 import cn.sharesdk.framework.Platform;
@@ -104,15 +102,32 @@ implements  Callback, PlatformActionListener{
 			
             //handler.sendMessage(msg); // For check more info
             
-                 try{        
-                      Log.i("MyPlugin","Begine to call back");
+                 //try{
+                      Log.i("MyPlugin","--->Begin to call back");
                      this.callbackContext.success(getJsonOfMsg(msg));
-                    }catch(Exception e){
-                     Log.i("MyPlugin",e.toString());
-                 }
+                   // }catch(Exception e){
+                    // Log.i("MyPlugin",e.toString());
+                 //}
             
 		}
 	}
+	public void onError(Platform platform, int action, Throwable t) {
+    		if (action == Platform.ACTION_USER_INFOR) {
+    			Message msg = new Message();
+                msg.what = MSG_AUTH_ERROR;
+                this.callbackContext.success(getJsonOfMsg(msg));
+    		}
+    		t.printStackTrace();
+    	}
+
+    	public void onCancel(Platform platform, int action) {
+    		if (action == Platform.ACTION_USER_INFOR) {
+    			Message msg = new Message();
+                msg.what = MSG_AUTH_CANCEL;
+                this.callbackContext.success(getJsonOfMsg(msg));
+    		}
+    	}
+
     
 
     private JSONObject getJsonOfMsg(Message msg) {
@@ -134,39 +149,28 @@ implements  Callback, PlatformActionListener{
                 result.put("status","COMPLETE");
                 
                 Object[] objs = (Object[]) msg.obj;
-				String platform = (String) objs[0];
-				HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
-                result.put("platform",platform);
-                if(platform.equals("QQ")){
-                    result.put("name",res.get("nickname"));
-                    result.put("id",res.get("figureurl").toString().split("\\/", -1)[4]);
-                }else{
-                    result.put("name",res.get("name"));
-                    result.put("id",res.get("id")); 
+				String platformStr = (String) objs[0];
+
+				// Get user info:
+                UserInfo userInfo = new UserInfo();
+                Platform platform = ShareSDK.getPlatform(platformStr);
+				String gender = platform.getDb().getUserGender();
+				userInfo.setUserGender(gender);
+                userInfo.setUserIcon(platform.getDb().getUserIcon());
+                userInfo.setUserName(platform.getDb().getUserName());
+                userInfo.setUserId(platform.getDb().getUserId());
+                result.put("userInfo", userInfo.toJson());
                 }
                 break;
-            }
             }
            
         }catch(Exception e){
             Log.i("MyPlugin",e.toString());
         }
+        Log.i("MyPlugin",result.toString());
         return result;
         
     }
-	
-	public void onError(Platform platform, int action, Throwable t) {
-		if (action == Platform.ACTION_USER_INFOR) {
-			handler.sendEmptyMessage(MSG_AUTH_ERROR);
-		}
-		t.printStackTrace();
-	}
-	
-	public void onCancel(Platform platform, int action) {
-		if (action == Platform.ACTION_USER_INFOR) {
-			handler.sendEmptyMessage(MSG_AUTH_CANCEL);
-		}
-	}
 	
 	@SuppressWarnings("unchecked")
 	public boolean handleMessage(Message msg) {

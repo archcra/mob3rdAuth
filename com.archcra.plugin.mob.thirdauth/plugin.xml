@@ -17,19 +17,14 @@
                 <param name="android-package" value="com.archcra.plugin.mob.thirdauth.MobAuth" />
             </feature>
         </config-file>
-        
-        
                  <resource-file src="src/android/assets/ShareSDK.xml" target="assets/ShareSDK.xml" />
-
         
          <resource-file src="src/android/ssdk_strings.xml" target="res/values/ssdk_strings.xml" />
-                
-        
-
         <source-file src="src/android/ShareSDK-Core-2.5.7.jar" target-dir="libs" />
         <source-file src="src/android/ShareSDK-QQ-2.5.7.jar" target-dir="libs" />
         <source-file src="src/android/ShareSDK-SinaWeibo-2.5.7.jar" target-dir="libs" />
         <source-file src="src/android/OnLoginListener.java" target-dir="src/com/archcra/plugin/mob/thirdauth" />
+        <source-file src="src/android/UserInfo.java" target-dir="src/com/archcra/plugin/mob/thirdauth" />
         <source-file src="src/android/MobAuth.java" target-dir="src/com/archcra/plugin/mob/thirdauth" />
     </platform>
 </plugin>
