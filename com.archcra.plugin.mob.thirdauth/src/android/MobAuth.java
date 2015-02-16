@@ -25,7 +25,7 @@ import android.os.Message;
 import android.widget.Toast;
 
 
-import com.archcra.plugin.mob.auth.OnLoginListener;
+import com.archcra.plugin.mob.thirdauth.OnLoginListener;
 
 import cn.sharesdk.framework.FakeActivity;
 import cn.sharesdk.framework.Platform;

@@ -1,4 +1,4 @@
-package com.archcra.plugin.mob.auth;
+package com.archcra.plugin.mob.thirdauth;
 
 import java.util.HashMap;
 
